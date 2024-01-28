@@ -40,11 +40,7 @@ const HomePage = () => {
         alt="home page image"
         className="w-[420px] hidden md:flex"
       />
-      <img
-        src={fondo}
-        alt="home page image"
-        className="w-[420px] hidden md:flex"
-      />
+      <img src={fondo} alt="home page 1" className="w-[420px] hidden md:flex" />
       <div className=" px-4 md:px-12 flex flex-col">
         <div className="flex gap-4 items-center">
           <div>
@@ -57,7 +53,7 @@ const HomePage = () => {
           </div>
           <img
             src={fondo}
-            alt="home page image"
+            alt="home page 2"
             className="flex md:hidden w-[190px] h-[200px] rounded-lg"
           />
         </div>
@@ -130,7 +126,7 @@ const HomePage = () => {
             Acepto la Política Comunicaciones Comerciales
           </label>
         </div>
-        <a className="font-semibold text-[12px] underline mt-6">
+        <a href="#" className="font-semibold text-[12px] underline mt-6">
           Aplican Términos y Condiciones.
         </a>
         <button
