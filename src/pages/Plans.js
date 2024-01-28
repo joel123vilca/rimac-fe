@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import protectIcon from "../assets/images/IcProtectionLight.png";
 import AddUserIcon from "../assets/images/IcAddUserLight.png";
 
 const Plans = () => {
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  };
-
   useEffect(() => {
     // dispatch(fetchPlansData);
   }, []);
