@@ -35,11 +35,7 @@ const HomePage = () => {
 
   return (
     <div className=" pl-0 md:pl-40 py-10 flex">
-      <img
-        src={fondo}
-        alt="home page image"
-        className="w-[420px] hidden md:flex"
-      />
+      <img src={fondo} alt="home page" className="w-[420px] hidden md:flex" />
       <img src={fondo} alt="home page 1" className="w-[420px] hidden md:flex" />
       <div className=" px-4 md:px-12 flex flex-col">
         <div className="flex gap-4 items-center">
@@ -126,7 +122,7 @@ const HomePage = () => {
             Acepto la Política Comunicaciones Comerciales
           </label>
         </div>
-        <a href="#" className="font-semibold text-[12px] underline mt-6">
+        <a href="/" className="font-semibold text-[12px] underline mt-6">
           Aplican Términos y Condiciones.
         </a>
         <button
