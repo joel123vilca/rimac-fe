@@ -1,9 +1,12 @@
 import fondo from "../assets/images/home.png";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import * as userActions from "../redux/actions/userActions";
+import { useDispatch } from "react-redux";
 
 const HomePage = () => {
   const navegate = useNavigate();
+  const dispatch = useDispatch();
   const [dniType, setDniType] = useState("DNI");
   const [documentNumber, setDocumentNumber] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -27,7 +30,11 @@ const HomePage = () => {
 
   const handleCotizaClick = () => {
     const isValid = validateInputs();
-
+    const data = {
+      documentNumber: documentNumber,
+      phoneNumber: phoneNumber,
+    };
+    dispatch(userActions.saveUserToLocalStorage(data));
     if (isValid) {
       navegate("/plans");
     }
@@ -59,9 +66,9 @@ const HomePage = () => {
           asesoría. 100% online.
         </span>
         <div className="mt-6">
-          <div className="flex items-center relative">
+          <div className="relative mt-4">
             <select
-              className="h-[56px] w-[140px] border border-[#5E6488] rounded-l outline-none"
+              className="h-12 w-1/3 border border-[#5E6488] rounded-l px-2 outline-none"
               value={dniType}
               onChange={handleDniTypeChange}
             >
@@ -70,15 +77,16 @@ const HomePage = () => {
             </select>
             <input
               type="text"
-              className="h-[56px] px-2 border border-l-0 border-[#5E6488] rounded-r outline-none w-full"
+              className="h-12 w-2/3 px-2 border border-[#5E6488] rounded-r outline-none "
+              placeholder="Nro. de documento"
               value={documentNumber}
               onChange={handleDocumentNumberChange}
             />
             <label
-              className={`absolute left-[105px] transition-all ${
+              className={`absolute left-1/3 transition-all ${
                 documentNumber
-                  ? "text-xs top-1 text-gray-500"
-                  : "top-4 text-gray-400"
+                  ? "block text-xs top-1 text-gray-500 px-2"
+                  : "hidden"
               }`}
             >
               Nro. de documento
@@ -88,14 +96,13 @@ const HomePage = () => {
             <input
               type="text"
               className="w-full h-[56px] px-2 border border-[#5E6488] rounded outline-none"
+              placeholder="Celular"
               value={phoneNumber}
               onChange={handlePhoneNumberChange}
             />
             <label
               className={`absolute left-2 transition-all ${
-                phoneNumber
-                  ? "text-xs top-1 text-gray-500"
-                  : "top-4 text-gray-400"
+                phoneNumber ? "block text-xs top-1 text-gray-500" : "hidden"
               }`}
             >
               Celular

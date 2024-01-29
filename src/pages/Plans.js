@@ -1,11 +1,52 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import protectIcon from "../assets/images/IcProtectionLight.png";
 import AddUserIcon from "../assets/images/IcAddUserLight.png";
+import Pagination from "../components/Pagination";
+import * as userActions from "../redux/actions/userActions";
+import * as plansActions from "../redux/actions/plansActions";
+import { useDispatch, useSelector } from "react-redux";
+import { userSelector } from "../redux/selectors/userSelector";
+import { plansSelector } from "../redux/selectors/plansSelector";
+import { useNavigate } from "react-router-dom";
+import BackRoute from "../components/BackRoute";
 
 const Plans = () => {
+  const [selectedCard, setSelectedCard] = useState(null);
+  const dispatch = useDispatch();
+  const navegate = useNavigate();
+  const user = useSelector(userSelector);
+  const plans = useSelector(plansSelector);
+
   useEffect(() => {
-    // dispatch(fetchPlansData);
-  }, []);
+    dispatch(userActions.getUser());
+    dispatch(plansActions.getPlans());
+  }, [dispatch]);
+
+  const handleCardClick = (index) => {
+    setSelectedCard(index);
+  };
+
+  const calculateAge = () => {
+    const birthDateObj = new Date(user?.birthDay);
+    const currentDate = new Date();
+    const timeDifference = currentDate - birthDateObj;
+    const age = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 365.25));
+
+    return age;
+  };
+
+  const getPlans = () => {
+    return plans.filter((item) => item.age <= calculateAge());
+  };
+
+  const handleGoBack = () => {
+    navegate(-1);
+  };
+
+  const setPlan = (plan) => {
+    dispatch(plansActions.savePlanToLocalStorage(plan));
+    navegate("/resumen");
+  };
 
   return (
     <div>
@@ -29,6 +70,7 @@ const Plans = () => {
         <div className="text-[10px] flex items-center md:hidden gap-4">
           {" "}
           <button
+            onClick={handleGoBack}
             className={`border border-[#A9AFD9] text-[#432EFF] font-bold rounded-full h-8 w-8 mr-2 flex justify-center items-center`}
           >
             <svg
@@ -58,21 +100,28 @@ const Plans = () => {
           </div>
         </div>
       </div>
+      <BackRoute />
       <div className="flex flex-col justify-center items-center mt-16 px-6 md:px-0">
         <div className="text-[28px] md:text-[40px] font-semibold">
-          Rocío ¿Para quién deseas cotizar?
+          {user?.name} ¿Para quién deseas cotizar?
         </div>
         <span className="text-[16px]">
           Selecciona la opción que se ajuste más a tus necesidades.
         </span>
         <div className="flex flex-col md:flex-row gap-8 mt-8">
-          <div className="w-full md:w-[256px] shadow rounded-lg py-4 px-6 cursor-pointer">
+          <div
+            className={`w-full md:w-[256px] shadow rounded-lg py-4 px-6 cursor-pointer ${
+              selectedCard === "1" ? "border border-2 border-[#03050F]" : ""
+            }`}
+            onClick={() => handleCardClick("1")}
+          >
             <div className="flex justify-end">
               <input
                 type="radio"
-                className="form-radio h-6 w-6 checked:bg-green-500 text-green-500 p-3 my-4"
+                className="form-radio-custom"
                 name="radio"
-                value="1"
+                checked={selectedCard === "1"}
+                onChange={() => setSelectedCard("1")}
               />
             </div>
             <div className="flex flex-col">
@@ -87,13 +136,19 @@ const Plans = () => {
               </span>
             </div>
           </div>
-          <div className="w-full md:w-[256px] shadow rounded-lg py-4 px-6 cursor-pointer">
+          <div
+            className={`w-full md:w-[256px] shadow rounded-lg py-4 px-6 cursor-pointer ${
+              selectedCard === "2" ? "border border-2 border-[#03050F]" : ""
+            }`}
+            onClick={() => handleCardClick("2")}
+          >
             <div className="flex justify-end">
               <input
                 type="radio"
-                className="form-radio h-6 w-6 checked:bg-green-500 text-green-500 p-3 my-4"
+                className="form-radio-custom"
                 name="radio"
-                value="1"
+                checked={selectedCard === "2"}
+                onChange={() => setSelectedCard("2")}
               />
             </div>
             <div className="flex flex-col">
@@ -112,7 +167,9 @@ const Plans = () => {
           </div>
         </div>
       </div>
-      <div></div>
+      <div>
+        {selectedCard && <Pagination plans={getPlans()} setPlan={setPlan} />}
+      </div>
     </div>
   );
 };
