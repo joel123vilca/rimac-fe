@@ -140,7 +140,7 @@ const HomePage = () => {
           </a>
           <button
             onClick={handleCotizaClick}
-            className="py-5 text-center text-[18px] font-bold bg-[#03050F] text-white rounded-[40px] mt-6"
+            className="py-5 mb-28 md:mb-0 text-center text-[18px] font-bold bg-[#03050F] text-white rounded-[40px] mt-6"
           >
             Cotiza aquí
           </button>
